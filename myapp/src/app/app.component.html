@@ -1,0 +1,12 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    Welcome to {{ title }}!
+  </h1>
+</div>
+<button type="button" (click)="increment()">Click Me</button> 
+<p>Button is clicked <span [innerHTML]="counter"></span> times.</p>
+
+<input type="text" name="user" [(ngModel)]="user" />
+
+<h3>Welcome {{user}}</h3>
