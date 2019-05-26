@@ -20,7 +20,10 @@ export class AddComponent implements OnInit {
   }
   // Method to add product
   addProduct() {
-    this.productService.products.push(this.product);
+    // copy of the product object is created.
+    let newProduct = Object.assign({},this.product);
+    // copy is added to the service array
+    this.productService.addProduct(newProduct);
     this.alertService.success('Successfully added.');
   }
   ngOnInit() {
