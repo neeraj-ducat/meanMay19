@@ -1,0 +1,32 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="row">
+  <form class="form-horizontal">
+    <div class="form-group">
+        <label>First No.</label>
+        <input type="text" class="form-control" name="num1" [(ngModel)]="num1"/>
+    </div>
+    <div class="form-group">
+        <label>Second No.</label>
+        <input type="text" class="form-control" name="num2" [(ngModel)]="num2"/>
+    </div>
+    <div class="form-group">
+        <label>Operation</label>
+        <div class="form-control">
+            <input type="radio" name="operation" [(ngModel)]="operation"   value="add">Add &nbsp;
+            <input type="radio" name="operation" [(ngModel)]="operation" value="subtract">Subtract &nbsp;
+            <input type="radio" name="operation" [(ngModel)]="operation" value="multiply">Mulitply &nbsp;
+            <input type="radio" name="operation" [(ngModel)]="operation" value="divide">Divide 
+        </div>
+    </div>
+    <div class="form-group">
+      <button type="button" class="btn btn-primary" (click)="calculate()">Submit</button>
+    </div>
+  </form>
+</div> 
+<div [hidden]="flag">
+<hr/>
+<h3 >Result is {{result}}</h3>
+</div>
+
+
+ 
