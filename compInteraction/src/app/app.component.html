@@ -1,0 +1,30 @@
+<div class="row">
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label>Message</label>
+      <input type="text" name="msg" [(ngModel)]="msg" 
+      class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Child Message: {{childMsg}}</label>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-primary"
+        (click)="doubleChildValue()">
+        Double Child Value</button> &nbsp;
+        <button type="button" class="btn btn-primary"
+        (click)="resetChildValue()">
+        Reset Child Value</button>
+    </div>
+  </form>
+  
+</div>
+<hr/>
+<div class="row">
+<app-child [message]="msg"
+(whichButton)="receiver($event)"></app-child>
+</div>
+<hr/>
+<div class="row">
+ <app-child-two #two></app-child-two>
+</div>
