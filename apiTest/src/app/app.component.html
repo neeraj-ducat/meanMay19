@@ -1,0 +1,24 @@
+<div class="row">
+    <p>&nbsp;</p>
+    <button type="button" class="btn btn-primary"
+    (click)="loadTasks()">Load ToDo Tasks</button>
+</div>
+<hr/>
+<div class="row" *ngIf="tasks.length > 0">
+    <table class="table table-bordered table-hover table-striped">
+       <tr>
+           <td>Id</td><td>UserId</td><td>Title</td><td>Status</td>
+       </tr> 
+       <tr *ngFor="let task of tasks">
+            <td>{{task.id}}</td>
+            <td>{{task.userId}}</td>
+            <td>{{task.title}}</td>
+            <td>{{task.completed ? 'Completed' : 'Not Completed'}}</td>
+        </tr> 
+    </table>
+</div>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)"
+size="medium"
+color="#fff"
+type="ball-scale-multiple">
+<p style="font-size: 20px; color: white"></ngx-spinner>
