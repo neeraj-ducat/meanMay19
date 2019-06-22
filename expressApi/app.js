@@ -2,72 +2,65 @@
 const express = require('express');
 // Create an express app object
 const app = express();
-
+// mongoose is imported
+const mongoose = require('mongoose');
+// connect the mongoose to the database
+mongoose.connect('mongodb://localhost/ducat',{ useNewUrlParser: true });
+// Define a Model for each collection of the database.
+const User = mongoose.model('users',{
+    name: String,
+    mailId: String,
+    password: String
+});
+// cors middleware is imported
+const cors = require('cors');
+// cors middleware is registered
+app.use(cors());
 // import body-parser
 const bodyparser = require('body-parser');
-// Array of users
-users = [
-{id: 1, name: 'Neeraj', mailId: 'a@b.com', password: '1234'},
-{id: 2, name: 'Pankaj', mailId: 'p@k.com', password: '1234'},
-{id: 3, name: 'Rahul', mailId: 'r@h.com', password: '1234'},
-{id: 4, name: 'Nitin', mailId: 'n@t.com', password: 'abcd'},
-];
 // registering the body-parser middleware for processing json payload
 app.use(bodyparser.json());
-// define routes for the express app. 
-// each route is a method which process an HTTP request
-counter = 4;
+
 app.get('/users',(req,res)=>{
-    res.json(users);
+    // use Model find() method to fetch users from the db
+    User.find().then(result => {
+        res.json(result);
+    });
 });
 app.get('/users/:email',(req,res)=>{
-    let toBeSearched = req.params['email'];
-    for(let i in users) {
-        if(users[i].mailId === toBeSearched)
-        {
-         res.json(users[i]);
-         return;
-        }
-    }
-    res.json({status: 'Not Found'});
+    let email = req.params['email'];
+    // use Model findOnd() method to fetch the user from the db
+    User.findOne({mailId: email}).then(result => {
+        res.json(result);
+    });
 });
 
 app.post('/users',(req,res)=>{
-    let toBeSaved = {id: ++counter, name: req.body.name,
-    mailId: req.body.mailId, password: req.body.password};
-    users.push(toBeSaved);
-    res.json({status: 'success'});
+    // A Model object is created.
+    let user = new User(req.body);
+    console.log('saving ',req.body);
+    // save method of the object is used to save.
+    user.save().then(result => {
+        res.json({status: 'successfully saved.'});
+    });
+    
+   
 });
 app.put('/users',(req,res)=>{
     
-    for(let i in users) {
-        if(users[i].id === req.body.id)
-        {
-            // current element is removed 
-            // and updated element is inserted
-            // at its position.
-            users.splice(i,1,req.body); 
-            res.json({status: 'success'});
-            return;
-        }
-         
-    }
-    res.json({status: 'failure'});
+   // update method of the model is used to update.
+   User.update({_id: req.body._id},{$set: {name: req.body.name, mailId: req.body.mailId, password: req.body.password}}).then(result => {
+    res.json({status: 'successfully updated.'});
+});
 });
  
 app.delete('/users/:id',(req,res)=>{
     let id = req.params['id'];
-    console.log('Id of the user to be deleted '+id);
-    for(let i in users) {
-        if(users[i].id == id)
-        {
-            users.splice(i,1); // element is removed from the array
-            res.json({status: 'success'});
-            return;
-        }
-         
-    }
-    res.json({status: 'failure'});
+    // deleteOne method of the model is used
+    User.deleteOne({_id: id}).then(result=>{
+        res.json({status: 'successfully deleted'});
+    });
+    
 });
 
 // start the server on a port.
